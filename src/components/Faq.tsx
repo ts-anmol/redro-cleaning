@@ -50,8 +50,15 @@ const FAQS = [
   },
 ];
 
-export default function Faq() {
+export default function Faq({
+  phone = "+61 404 504 303",
+  contactEmail = "redrocleaning@gmail.com",
+}: {
+  phone?: string;
+  contactEmail?: string;
+}) {
   const [openIndex, setOpenIndex] = useState(0);
+  const telHref = `tel:${phone.replace(/[^+\d]/g, "")}`;
 
   return (
     <section id="faq" className="scroll-mt-20 bg-white py-16 lg:py-24">
@@ -72,7 +79,7 @@ export default function Faq() {
             </p>
 
             <div className="mt-9 flex flex-col gap-3">
-              <a href="mailto:info@redrocleaning.com" className="flex items-center gap-3.5 rounded-[10px] bg-redro-cream px-5 py-4.5">
+              <a href={`mailto:${contactEmail}`} className="flex items-center gap-3.5 rounded-[10px] bg-redro-cream px-5 py-4.5">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-redro-tint">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <rect x="2" y="5" width="16" height="11" rx="2" stroke="#D41F1F" strokeWidth="1.5" />
@@ -80,11 +87,11 @@ export default function Faq() {
                   </svg>
                 </div>
                 <div>
-                  <div className="font-display text-sm font-semibold text-[#111]">info@redrocleaning.com</div>
+                  <div className="font-display text-sm font-semibold text-[#111]">{contactEmail}</div>
                   <div className="mt-1 text-[13px] text-[#AAA]">Email us anytime</div>
                 </div>
               </a>
-              <a href="tel:+61404504303" className="flex items-center gap-3.5 rounded-[10px] bg-redro-red px-5 py-4.5">
+              <a href={telHref} className="flex items-center gap-3.5 rounded-[10px] bg-redro-red px-5 py-4.5">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/20">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <rect x="5" y="1" width="10" height="18" rx="2" stroke="white" strokeWidth="1.5" />
@@ -92,7 +99,7 @@ export default function Faq() {
                   </svg>
                 </div>
                 <div>
-                  <div className="font-display text-sm font-semibold text-white">+61 404 504 303</div>
+                  <div className="font-display text-sm font-semibold text-white">{phone}</div>
                   <div className="mt-1 text-[13px] text-white/70">Call or SMS us</div>
                 </div>
               </a>

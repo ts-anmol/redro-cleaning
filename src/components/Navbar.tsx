@@ -12,8 +12,13 @@ const LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  phone = "+61 404 504 303",
+}: {
+  phone?: string;
+}) {
   const [open, setOpen] = useState(false);
+  const telHref = `tel:${phone.replace(/[^+\d]/g, "")}`;
 
   return (
     <nav className="sticky top-0 z-[100] flex h-16 items-center justify-between border-b border-[#ECEAE8] bg-white/96 px-5 shadow-[0_1px_0_rgba(0,0,0,0.04),0_4px_20px_rgba(0,0,0,0.04)] backdrop-blur-md sm:px-8 lg:h-20 lg:px-20">
@@ -39,8 +44,8 @@ export default function Navbar() {
       </div>
 
       <div className="hidden items-center gap-5 lg:flex">
-        <a href="tel:+61404504303" className="text-sm font-medium text-[#666] transition-colors hover:text-redro-red">
-          +61 404 504 303
+        <a href={telHref} className="text-sm font-medium text-[#666] transition-colors hover:text-redro-red">
+          {phone}
         </a>
         <a
           href="#contact"
@@ -97,10 +102,10 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="tel:+61404504303"
+            href={telHref}
             className="mt-2 px-2 text-sm font-medium text-[#666]"
           >
-            +61 404 504 303
+            {phone}
           </a>
           <a
             href="#contact"

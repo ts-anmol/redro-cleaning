@@ -1,20 +1,42 @@
+import type { ServiceConfig } from "@/types/admin";
 import SectionHeading from "./SectionHeading";
 
 type PriceItem = {
+  key: string;
   label: string;
   price: string;
 };
 
 const ITEMS: PriceItem[] = [
-  { label: "End of Lease", price: "From $250" },
-  { label: "Move-In Cleaning", price: "Get a Quote" },
-  { label: "Move-Out Cleaning", price: "Get a Quote" },
-  { label: "Carpet Steam Cleaning", price: "From $89" },
-  { label: "Pressure Driveway Wash", price: "From $120" },
-  { label: "Balcony Deep Clean", price: "From $69" },
+  { key: "end-of-lease", label: "End of Lease", price: "From $250" },
+  { key: "move-in", label: "Move-In Cleaning", price: "Get a Quote" },
+  { key: "move-out", label: "Move-Out Cleaning", price: "Get a Quote" },
+  { key: "carpet-steam", label: "Carpet Steam Cleaning", price: "From $89" },
+  { key: "driveway-wash", label: "Pressure Driveway Wash", price: "From $120" },
+  { key: "balcony", label: "Balcony Deep Clean", price: "From $69" },
 ];
 
-export default function Pricing() {
+export default function Pricing({
+  services = [],
+}: {
+  services?: ServiceConfig[];
+}) {
+  const byKey = new Map(services.map((c) => [c.key, c]));
+  const visibleItems = ITEMS.filter((item) => {
+    const db = byKey.get(item.key);
+    return !db || db.isActive;
+  }).map((item) => {
+    const db = byKey.get(item.key);
+    return db ? { ...item, price: db.price } : item;
+  });
+
+  // Append services added via the admin dashboard (not in the built-in list).
+  const knownKeys = new Set(ITEMS.map((i) => i.key));
+  const extraItems = services
+    .filter((s) => s.isActive && !knownKeys.has(s.key))
+    .map((s) => ({ key: s.key, label: s.title, price: s.price }));
+  const allItems = [...visibleItems, ...extraItems];
+
   return (
     <section id="pricing" className="scroll-mt-20 bg-white py-16 lg:py-24">
       <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
@@ -26,7 +48,7 @@ export default function Pricing() {
         />
 
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[14px] border border-redro-border bg-redro-border sm:grid-cols-3 lg:grid-cols-6">
-          {ITEMS.map((item) => (
+          {allItems.map((item) => (
             <div key={item.label} className="bg-white px-5 py-7 text-center lg:py-9">
               <div className="font-display mb-2 text-[20px] font-black text-redro-red lg:text-[22px]">{item.price}</div>
               <div className="text-[13px] font-medium text-[#666]">{item.label}</div>

@@ -1,4 +1,9 @@
-export default function CtaBanner() {
+export default function CtaBanner({
+  phone = "+61 404 504 303",
+}: {
+  phone?: string;
+}) {
+  const telHref = `tel:${phone.replace(/[^+\d]/g, "")}`;
   return (
     <section className="relative overflow-hidden bg-redro-red px-5 py-14 sm:px-8 lg:px-20 lg:py-18">
       <div className="pointer-events-none absolute -top-20 -left-20 h-90 w-90 rounded-full bg-white opacity-[0.04]" />
@@ -21,10 +26,10 @@ export default function CtaBanner() {
             Book Online Now
           </a>
           <a
-            href="tel:+61404504303"
+            href={telHref}
             className="font-display rounded-[5px] border-2 border-white/50 px-7 py-4 text-center text-sm font-bold tracking-[0.04em] text-white whitespace-nowrap uppercase"
           >
-            +61 404 504 303
+            {phone}
           </a>
         </div>
       </div>

@@ -11,7 +11,14 @@ const COMPANY_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Footer() {
+export default function Footer({
+  phone = "+61 404 504 303",
+  contactEmail = "redrocleaning@gmail.com",
+}: {
+  phone?: string;
+  contactEmail?: string;
+}) {
+  const telHref = `tel:${phone.replace(/[^+\d]/g, "")}`;
   return (
     <footer className="bg-[#111] px-5 pt-16 sm:px-8 lg:px-20">
       <div className="mx-auto max-w-[1280px]">
@@ -95,16 +102,16 @@ export default function Footer() {
             </div>
             <div className="flex flex-col gap-3.5">
               <a
-                href="mailto:info@redrocleaning.com"
+                href={`mailto:${contactEmail}`}
                 className="text-sm leading-[1.4] text-white/50"
               >
-                info@redrocleaning.com
+                {contactEmail}
               </a>
               <a
-                href="tel:+61404504303"
+                href={telHref}
                 className="text-sm leading-[1.4] text-white/50 transition-colors hover:text-white"
               >
-                +61 404 504 303
+                {phone}
               </a>
               <span className="text-sm leading-[1.4] text-white/50">
                 Sydney, NSW, Australia
