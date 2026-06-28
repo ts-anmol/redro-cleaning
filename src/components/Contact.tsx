@@ -1,16 +1,49 @@
 "use client";
 
 import { useState } from "react";
+import type { ServiceConfig } from "@/types/admin";
 
 const inputClasses =
   "h-11 w-full rounded-[7px] border-[1.5px] border-[#E6E4E0] bg-redro-cream px-4 text-sm text-[#111] outline-none focus:border-redro-red";
 const labelClasses =
   "font-display mb-1.5 block text-[11px] font-semibold tracking-[0.06em] text-[#444] uppercase";
 
-export default function Contact() {
+const DEFAULT_SERVICE_OPTIONS = [
+  { key: "end-of-lease", label: "End of Lease Cleaning" },
+  { key: "move-in", label: "Move-In Cleaning" },
+  { key: "move-out", label: "Move-Out Cleaning" },
+  { key: "carpet-steam", label: "Carpet Steam Cleaning" },
+  { key: "driveway-wash", label: "Pressure Driveway Wash" },
+  { key: "balcony", label: "Balcony Deep Clean" },
+];
+
+export default function Contact({
+  services = [],
+  phone = "+61 404 504 303",
+  contactEmail = "redrocleaning@gmail.com",
+}: {
+  services?: ServiceConfig[];
+  phone?: string;
+  contactEmail?: string;
+}) {
+  const telHref = `tel:${phone.replace(/[^+\d]/g, "")}`;
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Only offer services that are active in the admin dashboard.
+  const byKey = new Map(services.map((s) => [s.key, s]));
+  const knownKeys = new Set(DEFAULT_SERVICE_OPTIONS.map((o) => o.key));
+  const serviceOptions = [
+    ...DEFAULT_SERVICE_OPTIONS.filter((o) => {
+      const db = byKey.get(o.key);
+      return !db || db.isActive;
+    }).map((o) => ({ value: o.key, label: byKey.get(o.key)?.title ?? o.label })),
+    // Services added via the admin dashboard.
+    ...services
+      .filter((s) => s.isActive && !knownKeys.has(s.key))
+      .map((s) => ({ value: s.key, label: s.title })),
+  ];
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -84,7 +117,7 @@ export default function Contact() {
                       </svg>
                     </div>
                     <span className="text-sm text-white/60">
-                      info@redrocleaning.com
+                      {contactEmail}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -109,10 +142,10 @@ export default function Contact() {
                       </svg>
                     </div>
                     <a
-                      href="tel:+61404504303"
+                      href={telHref}
                       className="text-sm text-white/60 transition-colors hover:text-white"
                     >
-                      +61 404 504 303
+                      {phone}
                     </a>
                   </div>
                   <div className="flex items-center gap-3">
@@ -235,18 +268,11 @@ export default function Contact() {
                       <option value="" disabled className="text-[#C0BCB6]">
                         Select a service…
                       </option>
-                      <option value="end-of-lease">
-                        End of Lease Cleaning
-                      </option>
-                      <option value="move-in">Move-In Cleaning</option>
-                      <option value="move-out">Move-Out Cleaning</option>
-                      <option value="carpet-steam">
-                        Carpet Steam Cleaning
-                      </option>
-                      <option value="driveway-wash">
-                        Pressure Driveway Wash
-                      </option>
-                      <option value="balcony">Balcony Deep Clean</option>
+                      {serviceOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="mb-3.5 grid grid-cols-2 gap-4">

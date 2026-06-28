@@ -1,6 +1,8 @@
+import type { ServiceConfig } from "@/types/admin";
 import SectionHeading from "./SectionHeading";
 
 type Service = {
+  key: string;
   number: string;
   title: string;
   description: string;
@@ -11,6 +13,7 @@ type Service = {
 };
 
 type AddOn = {
+  key: string;
   title: string;
   description: string;
   price: string;
@@ -18,6 +21,7 @@ type AddOn = {
 
 const SERVICES: Service[] = [
   {
+    key: "end-of-lease",
     number: "Popular",
     title: "End of Lease Cleaning",
     description:
@@ -28,6 +32,7 @@ const SERVICES: Service[] = [
     popular: true,
   },
   {
+    key: "move-in",
     number: "01",
     title: "Move-In Cleaning",
     description:
@@ -36,6 +41,7 @@ const SERVICES: Service[] = [
     price: "Get a Quote",
   },
   {
+    key: "move-out",
     number: "02",
     title: "Move-Out Cleaning",
     description:
@@ -47,18 +53,21 @@ const SERVICES: Service[] = [
 
 const ADDONS: AddOn[] = [
   {
+    key: "carpet-steam",
     title: "Carpet Steam Cleaning",
     description:
       "Hot-water extraction for all carpeted areas. Removes deep stains, odours & allergens for a fresh finish.",
     price: "From $89",
   },
   {
+    key: "driveway-wash",
     title: "Pressure Driveway Wash",
     description:
       "High-pressure clean to lift oil stains, dirt build-up & tyre marks — restoring curb appeal.",
     price: "From $120",
   },
   {
+    key: "balcony",
     title: "Balcony Deep Clean",
     description:
       "Full wash-down of balcony floors, railings, glass panels & drainage. Move-in ready.",
@@ -131,7 +140,71 @@ function AddOnIcon({ index }: { index: number }) {
   );
 }
 
-export default function Services() {
+// Merge the website's rich presentation with the admin-editable DB config:
+// hide anything toggled inactive, and let the DB override title/price/description.
+// When there's no matching DB record (e.g. DB unavailable), fall back to the
+// hardcoded content so the site never renders empty.
+function mergeWithConfig<T extends { key: string; title: string; price: string; description: string }>(
+  items: T[],
+  configs: ServiceConfig[],
+): (T & { iconIndex: number })[] {
+  const byKey = new Map(configs.map((c) => [c.key, c]));
+  return items
+    .map((item, iconIndex) => ({ item, iconIndex }))
+    .filter(({ item }) => {
+      const db = byKey.get(item.key);
+      return !db || db.isActive;
+    })
+    .map(({ item, iconIndex }) => {
+      const db = byKey.get(item.key);
+      return {
+        ...item,
+        iconIndex,
+        ...(db
+          ? { title: db.title, price: db.price, description: db.description }
+          : {}),
+      };
+    });
+}
+
+export default function Services({
+  services = [],
+}: {
+  services?: ServiceConfig[];
+}) {
+  const visibleServices = mergeWithConfig(SERVICES, services);
+  const visibleAddons = mergeWithConfig(ADDONS, services);
+
+  // Services added via the admin dashboard (keys not in the built-in lists)
+  // are rendered with a default icon and no tags.
+  const knownServiceKeys = new Set(SERVICES.map((s) => s.key));
+  const knownAddonKeys = new Set(ADDONS.map((a) => a.key));
+  const extraServiceCards = services
+    .filter((s) => !s.isAddon && s.isActive && !knownServiceKeys.has(s.key))
+    .map((s) => ({
+      key: s.key,
+      number: "",
+      title: s.title,
+      description: s.description,
+      tags: [] as string[],
+      price: s.price,
+      dark: false,
+      popular: false,
+      iconIndex: 2,
+    }));
+  const extraAddonCards = services
+    .filter((s) => s.isAddon && s.isActive && !knownAddonKeys.has(s.key))
+    .map((s) => ({
+      key: s.key,
+      title: s.title,
+      description: s.description,
+      price: s.price,
+      iconIndex: 2,
+    }));
+
+  const serviceCards = [...visibleServices, ...extraServiceCards];
+  const addonCards = [...visibleAddons, ...extraAddonCards];
+
   return (
     <section id="services" className="scroll-mt-20 bg-redro-cream py-16 pb-16 lg:py-24 lg:pb-20">
       <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
@@ -143,7 +216,7 @@ export default function Services() {
         />
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((service, i) => (
+          {serviceCards.map((service) => (
             <div
               key={service.title}
               className={`relative overflow-hidden rounded-[14px] border-t-4 border-redro-red p-9 shadow-[0_2px_8px_rgba(0,0,0,0.06)] ${
@@ -159,15 +232,17 @@ export default function Services() {
                     service.dark ? "bg-redro-red/20" : "bg-redro-tint"
                   }`}
                 >
-                  <ServiceIcon index={i} />
+                  <ServiceIcon index={service.iconIndex} />
                 </div>
-                <span
-                  className={`font-display rounded-full px-2.5 py-1.5 text-[11px] font-bold tracking-[0.08em] uppercase ${
-                    service.popular ? "bg-redro-red text-white" : "bg-redro-cream text-[#AAA]"
-                  }`}
-                >
-                  {service.number === "Popular" ? "Popular" : service.number}
-                </span>
+                {service.number && (
+                  <span
+                    className={`font-display rounded-full px-2.5 py-1.5 text-[11px] font-bold tracking-[0.08em] uppercase ${
+                      service.popular ? "bg-redro-red text-white" : "bg-redro-cream text-[#AAA]"
+                    }`}
+                  >
+                    {service.number === "Popular" ? "Popular" : service.number}
+                  </span>
+                )}
               </div>
               <h3 className={`font-display mb-3 text-[20px] font-bold ${service.dark ? "text-white" : "text-[#111]"}`}>
                 {service.title}
@@ -208,13 +283,13 @@ export default function Services() {
           <p className="mb-10 text-center text-sm text-[#888]">Extend any clean with an add-on for a truly spotless finish.</p>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {ADDONS.map((addon, i) => (
+            {addonCards.map((addon) => (
               <div
                 key={addon.title}
                 className="flex items-start gap-4 rounded-[14px] border border-[#ECEAE8] bg-white p-7"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-redro-tint">
-                  <AddOnIcon index={i} />
+                  <AddOnIcon index={addon.iconIndex} />
                 </div>
                 <div>
                   <h4 className="font-display mb-1.5 text-base font-bold text-[#111]">{addon.title}</h4>

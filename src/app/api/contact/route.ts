@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { prisma } from "@/lib/prisma";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const ADMIN_EMAIL = "anmoldev006@gmail.com";
+const ADMIN_EMAIL = "redrocleaning@gmail.com";
 const FROM_EMAIL = "Redro Cleaning <quotes@redrocleaning.com>";
 
 const SERVICE_LABELS: Record<string, string> = {
@@ -74,7 +75,10 @@ const BRAND = {
   tint: "#FFF0EF",
 };
 
-function emailLayout(bodyHtml: string): string {
+function emailLayout(
+  bodyHtml: string,
+  contact: { email: string; phone: string },
+): string {
   return `
 <div style="background-color:${BRAND.cream};padding:40px 16px;font-family:Helvetica,Arial,sans-serif;">
   <div style="max-width:560px;margin:0 auto;background-color:#ffffff;border-radius:14px;overflow:hidden;border:1px solid ${BRAND.border};">
@@ -87,7 +91,7 @@ function emailLayout(bodyHtml: string): string {
     </div>
     <div style="background-color:${BRAND.cream};padding:18px 36px;border-top:1px solid ${BRAND.border};">
       <p style="margin:0;font-size:12px;color:#999999;">Redro Cleaning &middot; Serving all of Sydney, NSW</p>
-      <p style="margin:4px 0 0;font-size:12px;color:#999999;">info@redrocleaning.com &middot; +61 404 504 303</p>
+      <p style="margin:4px 0 0;font-size:12px;color:#999999;">${escapeHtml(contact.email)} &middot; ${escapeHtml(contact.phone)}</p>
     </div>
   </div>
 </div>`;
@@ -114,9 +118,11 @@ function buildAdminEmailHtml(opts: {
   preferredDate: string;
   bedroomLabel: string;
   message: string;
+  contact: { email: string; phone: string };
 }): string {
-  const { fullName, firstName, email, phone, serviceLabel, preferredDate, bedroomLabel, message } = opts;
-  return emailLayout(`
+  const { fullName, firstName, email, phone, serviceLabel, preferredDate, bedroomLabel, message, contact } = opts;
+  return emailLayout(
+    `
     ${eyebrow("New Quote Request")}
     <h1 style="margin:0 0 22px;font-size:24px;font-weight:800;color:${BRAND.dark};">${serviceLabel}</h1>
     <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
@@ -136,7 +142,9 @@ function buildAdminEmailHtml(opts: {
         : ""
     }
     <a href="mailto:${email}?subject=${encodeURIComponent(`Re: Your ${serviceLabel} Quote Request`)}" style="display:inline-block;background-color:${BRAND.red};color:#ffffff;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:14px 28px;border-radius:7px;">Reply to ${firstName} &rarr;</a>
-  `);
+  `,
+    contact,
+  );
 }
 
 function buildCustomerEmailHtml(opts: {
@@ -144,9 +152,12 @@ function buildCustomerEmailHtml(opts: {
   serviceLabel: string;
   preferredDate: string;
   bedroomLabel: string;
+  contact: { email: string; phone: string };
 }): string {
-  const { firstName, serviceLabel, preferredDate, bedroomLabel } = opts;
-  return emailLayout(`
+  const { firstName, serviceLabel, preferredDate, bedroomLabel, contact } = opts;
+  const telHref = `tel:${contact.phone.replace(/[^+\d]/g, "")}`;
+  return emailLayout(
+    `
     ${eyebrow("Request Received")}
     <h1 style="margin:0 0 16px;font-size:24px;font-weight:800;color:${BRAND.dark};">Thanks, ${firstName}!</h1>
     <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#555555;">
@@ -166,10 +177,12 @@ function buildCustomerEmailHtml(opts: {
     </table>
     <p style="margin:26px 0 20px;font-size:14px;line-height:1.7;color:#555555;">
       Need something urgent? Call or SMS us anytime on
-      <a href="tel:+61404504303" style="color:${BRAND.red};font-weight:700;text-decoration:none;">+61 404 504 303</a>.
+      <a href="${telHref}" style="color:${BRAND.red};font-weight:700;text-decoration:none;">${escapeHtml(contact.phone)}</a>.
     </p>
     <p style="margin:0;font-size:14px;color:#999999;">&mdash; The Redro Cleaning Team</p>
-  `);
+  `,
+    contact,
+  );
 }
 
 export async function POST(request: NextRequest) {
@@ -194,9 +207,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Email service is not configured." }, { status: 500 });
   }
 
+  // Read admin-configurable settings (notification inbox, sender, public contact
+  // info). Fall back to the built-in defaults if the row/DB is unavailable.
+  const settings = await prisma.siteSettings
+    .findUnique({ where: { id: "singleton" } })
+    .catch(() => null);
+  const notifyEmail = settings?.adminEmail?.trim() || ADMIN_EMAIL;
+  const fromEmail = settings?.emailFrom?.trim() || FROM_EMAIL;
+  const contact = {
+    email: settings?.contactEmail?.trim() || "redrocleaning@gmail.com",
+    phone: settings?.phone?.trim() || "+61 404 504 303",
+  };
+
   const adminSend = await resend.emails.send({
-    from: FROM_EMAIL,
-    to: ADMIN_EMAIL,
+    from: fromEmail,
+    to: notifyEmail,
     replyTo: email,
     subject: `New Quote Request — ${serviceLabel} (${fullName})`,
     html: buildAdminEmailHtml({
@@ -208,6 +233,7 @@ export async function POST(request: NextRequest) {
       preferredDate,
       bedroomLabel,
       message,
+      contact,
     }),
   });
 
@@ -217,14 +243,35 @@ export async function POST(request: NextRequest) {
   }
 
   const customerSend = await resend.emails.send({
-    from: FROM_EMAIL,
+    from: fromEmail,
     to: email,
     subject: "We've received your quote request — Redro Cleaning",
-    html: buildCustomerEmailHtml({ firstName, serviceLabel, preferredDate, bedroomLabel }),
+    html: buildCustomerEmailHtml({ firstName, serviceLabel, preferredDate, bedroomLabel, contact }),
   });
 
   if (customerSend.error) {
     console.error("Failed to send customer confirmation email:", customerSend.error);
+  }
+
+  // Persist the quote request as a Lead for the admin dashboard. Stored with the
+  // raw submitted values (the escaped versions above are only for email HTML).
+  // A DB failure here should not fail the request — the emails have already sent.
+  try {
+    await prisma.lead.create({
+      data: {
+        firstName: body.firstName.trim(),
+        lastName: body.lastName.trim(),
+        email: body.email.trim(),
+        phone: body.phone.trim(),
+        serviceType: body.serviceType,
+        preferredDate: body.preferredDate.trim(),
+        bedrooms: body.bedrooms,
+        message: body.message?.trim() ? body.message.trim() : null,
+        status: "NEW",
+      },
+    });
+  } catch (dbError) {
+    console.error("Failed to save lead to database:", dbError);
   }
 
   return NextResponse.json({ success: true });

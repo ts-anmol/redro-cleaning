@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Lead {
+  id            String     @id @default(cuid())
+  firstName     String
+  lastName      String
+  email         String
+  phone         String
+  serviceType   String
+  preferredDate String
+  bedrooms      String
+  message       String?
+  status        LeadStatus @default(NEW)
+  notes         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  booking       Booking?
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  leadId      String?       @unique
+  lead        Lead?         @relation(fields: [leadId], references: [id])
+  customerId  String?
+  customer    Customer?     @relation(fields: [customerId], references: [id])
+  serviceType String
+  scheduledAt DateTime
+  address     String
+  bedrooms    String
+  status      BookingStatus @default(SCHEDULED)
+  notes       String?
+  price       Float?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String    @unique
+  phone     String
+  address   String?
+  notes     String?
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model ServiceConfig {
+  id          String  @id @default(cuid())
+  key         String  @unique
+  title       String
+  price       String
+  description String
+  isActive    Boolean @default(true)
+  isAddon     Boolean @default(false)
+}
+
+model SiteSettings {
+  id           String @id @default("singleton")
+  adminEmail   String @default("redrocleaning@gmail.com")
+  businessName String @default("Redro Cleaning")
+  phone        String @default("+61 404 504 303")
+  emailFrom    String @default("Redro Cleaning <quotes@redrocleaning.com>")
+  contactEmail String @default("redrocleaning@gmail.com")
+}
+
+enum LeadStatus {
+  NEW
+  QUOTED
+  BOOKED
+  COMPLETED
+  CANCELLED
+}
+
+enum BookingStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}

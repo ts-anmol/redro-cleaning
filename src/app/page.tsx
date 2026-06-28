@@ -13,25 +13,62 @@ import Faq from "@/components/Faq";
 import Contact from "@/components/Contact";
 import AreasServed from "@/components/AreasServed";
 import Footer from "@/components/Footer";
+import { prisma } from "@/lib/prisma";
+import type { ServiceConfig } from "@/types/admin";
 
-export default function Home() {
+const DEFAULT_PHONE = "+61 404 504 303";
+const DEFAULT_CONTACT_EMAIL = "redrocleaning@gmail.com";
+
+async function getServiceConfigs(): Promise<ServiceConfig[]> {
+  // Drives which services/prices show on the public site (admin-editable).
+  // Falls back to an empty list so the site renders its built-in defaults
+  // if the database is ever unreachable.
+  try {
+    return await prisma.serviceConfig.findMany();
+  } catch {
+    return [];
+  }
+}
+
+async function getContactInfo(): Promise<{ phone: string; contactEmail: string }> {
+  // Phone + public contact email shown across the site (admin-editable).
+  try {
+    const s = await prisma.siteSettings.findUnique({
+      where: { id: "singleton" },
+    });
+    return {
+      phone: s?.phone?.trim() || DEFAULT_PHONE,
+      contactEmail: s?.contactEmail?.trim() || DEFAULT_CONTACT_EMAIL,
+    };
+  } catch {
+    return { phone: DEFAULT_PHONE, contactEmail: DEFAULT_CONTACT_EMAIL };
+  }
+}
+
+export default async function Home() {
+  const [services, contact] = await Promise.all([
+    getServiceConfigs(),
+    getContactInfo(),
+  ]);
+  const { phone, contactEmail } = contact;
+
   return (
     <>
-      <Navbar />
+      <Navbar phone={phone} />
       <Hero />
       <TrustBar />
-      <Services />
+      <Services services={services} />
       <Stats />
       <HowItWorks />
-      <Pricing />
+      <Pricing services={services} />
       <About />
       <AreasServed />
       <Testimonials />
-      <CtaBanner />
+      <CtaBanner phone={phone} />
       <Gallery />
-      <Faq />
-      <Contact />
-      <Footer />
+      <Faq phone={phone} contactEmail={contactEmail} />
+      <Contact services={services} phone={phone} contactEmail={contactEmail} />
+      <Footer phone={phone} contactEmail={contactEmail} />
     </>
   );
 }
