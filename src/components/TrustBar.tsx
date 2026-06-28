@@ -38,10 +38,10 @@ function Icon({ name }: { name: string }) {
 export default function TrustBar() {
   return (
     <div
-      className="bg-redro-red px-20 pt-5.5 pb-10.5"
+      className="bg-redro-red px-5 pt-5.5 pb-10.5 sm:px-8 lg:px-20"
       style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 22px), 0 100%)" }}
     >
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between">
+      <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-center gap-x-6 gap-y-3 lg:justify-between lg:gap-0">
         {ITEMS.map((item) => (
           <div key={item.label} className="flex items-center gap-2.5 text-white">
             <Icon name={item.icon} />

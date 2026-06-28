@@ -8,17 +8,17 @@ const STATS = [
 
 export default function Stats() {
   return (
-    <section className="bg-white py-18">
-      <div className="mx-auto max-w-[1280px] px-20">
-        <div className="flex overflow-hidden rounded-[14px] border border-redro-border">
+    <section className="bg-white py-12 lg:py-18">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[14px] border border-redro-border bg-redro-border lg:grid-cols-5">
           {STATS.map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex-1 px-7 py-9 text-center ${
-                i < STATS.length - 1 ? "border-r border-redro-border" : ""
+              className={`bg-white px-5 py-7 text-center lg:px-7 lg:py-9 lg:col-span-1 ${
+                i === STATS.length - 1 ? "col-span-2" : ""
               }`}
             >
-              <div className="font-display mb-2 text-[40px] font-black text-redro-red">{stat.value}</div>
+              <div className="font-display mb-2 text-[32px] font-black text-redro-red lg:text-[40px]">{stat.value}</div>
               <div className="font-display mb-1 text-[13px] font-semibold text-[#111]">{stat.label}</div>
               <div className="text-xs text-[#AAA]">{stat.sub}</div>
             </div>

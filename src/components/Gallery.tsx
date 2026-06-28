@@ -30,22 +30,22 @@ const ITEMS = [
 
 export default function Gallery() {
   return (
-    <section className="bg-redro-cream py-24">
-      <div className="mx-auto max-w-[1280px] px-20">
+    <section className="bg-redro-cream py-16 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
         <SectionHeading
           eyebrow="Our Work"
           title="Before & After"
           subtitle="Real results from real Sydney homes."
-          className="mb-14"
+          className="mb-12 lg:mb-14"
         />
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {ITEMS.map((item) => (
             <div
               key={`${item.room}-${item.state}`}
-              className="relative flex h-70 items-end overflow-hidden rounded-xl"
+              className="relative flex h-60 items-end overflow-hidden rounded-xl sm:h-70"
             >
-              <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="50vw" />
+              <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
               <div className="relative z-10 flex w-full items-center justify-between bg-black/72 px-5 py-3.5">
                 <span
                   className={`font-display text-xs font-bold tracking-[0.08em] uppercase ${

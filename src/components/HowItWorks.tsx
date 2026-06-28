@@ -30,16 +30,16 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-redro-cream py-24">
-      <div className="mx-auto max-w-[1280px] px-20">
+    <section className="bg-redro-cream py-16 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
         <SectionHeading
           eyebrow="Simple Process"
           title="How It Works"
           subtitle="Three simple steps to a spotless home."
-          className="mb-16"
+          className="mb-12 lg:mb-16"
         />
 
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((step, i) => (
             <div
               key={step.number}
@@ -48,13 +48,13 @@ export default function HowItWorks() {
               {i < STEPS.length - 1 && (
                 <>
                   <div
-                    className="absolute top-21 left-[calc(50%+44px)] z-10 h-0.5 w-[calc(100%-56px)]"
+                    className="absolute top-21 left-[calc(50%+44px)] z-10 hidden h-0.5 w-[calc(100%-56px)] lg:block"
                     style={{
                       backgroundImage:
                         "repeating-linear-gradient(90deg, #D41F1F 0, #D41F1F 8px, transparent 8px, transparent 18px)",
                     }}
                   />
-                  <div className="absolute top-21 -right-8 z-20 h-0.5 w-8 bg-redro-cream" />
+                  <div className="absolute top-21 -right-8 z-20 hidden h-0.5 w-8 bg-redro-cream lg:block" />
                 </>
               )}
               <div className="mx-auto mb-7 flex h-22 w-22 items-center justify-center rounded-full bg-redro-red">

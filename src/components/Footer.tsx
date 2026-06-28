@@ -13,10 +13,10 @@ const COMPANY_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#111] px-20 pt-16">
+    <footer className="bg-[#111] px-5 pt-16 sm:px-8 lg:px-20">
       <div className="mx-auto max-w-[1280px]">
-        <div className="grid grid-cols-[2.2fr_1fr_1fr_1.2fr] gap-15 border-b border-white/8 pb-13">
-          <div>
+        <div className="grid grid-cols-2 gap-10 border-b border-white/8 pb-13 lg:grid-cols-[2.2fr_1fr_1fr_1.2fr] lg:gap-15">
+          <div className="col-span-2 lg:col-span-1">
             <div className="font-display mb-2 text-2xl font-black tracking-[0.02em]">
               <span className="text-redro-red">REDRO</span>
               <span className="text-white"> CLEANING</span>
@@ -119,7 +119,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between py-5.5">
+        <div className="flex flex-col items-start justify-between gap-3 py-5.5 sm:flex-row sm:items-center">
           <span className="text-xs text-white/25">
             © 2026 Redro Cleaning Pty Ltd. ABN: 23 461 553 081. All rights
             reserved.

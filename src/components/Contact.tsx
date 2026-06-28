@@ -17,10 +17,10 @@ export default function Contact() {
 
   return (
     <section id="contact" className="scroll-mt-10 bg-redro-cream py-16">
-      <div className="mx-auto max-w-[1280px] px-20">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
         <div className="overflow-hidden rounded-[20px] bg-white shadow-[0_4px_24px_rgba(0,0,0,0.07)]">
-          <div className="grid grid-cols-[1fr_1.5fr]">
-            <div className="flex flex-col justify-between bg-[#111] p-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr]">
+            <div className="flex flex-col justify-between bg-[#111] p-7 sm:p-10">
               <div>
                 <div className="font-display mb-3 text-[11px] font-bold tracking-[0.12em] text-redro-red uppercase">
                   Book a Clean
@@ -133,7 +133,7 @@ export default function Contact() {
               </div> */}
             </div>
 
-            <div className="p-10">
+            <div className="p-7 sm:p-10">
               {submitted ? (
                 <div className="flex h-full flex-col items-center justify-center text-center">
                   <h3 className="font-display mb-3 text-2xl font-bold text-[#111]">

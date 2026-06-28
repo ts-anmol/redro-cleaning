@@ -133,16 +133,16 @@ function AddOnIcon({ index }: { index: number }) {
 
 export default function Services() {
   return (
-    <section id="services" className="scroll-mt-20 bg-redro-cream py-24 pb-20">
-      <div className="mx-auto max-w-[1280px] px-20">
+    <section id="services" className="scroll-mt-20 bg-redro-cream py-16 pb-16 lg:py-24 lg:pb-20">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
         <SectionHeading
           eyebrow="What We Do"
           title="Our Cleaning Services"
           subtitle="Professional end of lease, move-in & move-out cleaning — done to real estate inspection standards, every time."
-          className="mx-auto mb-15 max-w-[560px]"
+          className="mx-auto mb-10 max-w-[560px] lg:mb-15"
         />
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, i) => (
             <div
               key={service.title}
@@ -203,11 +203,11 @@ export default function Services() {
           ))}
         </div>
 
-        <div className="mt-16">
+        <div className="mt-12 lg:mt-16">
           <h3 className="font-display mb-2 text-center text-2xl font-bold text-[#111]">Add-On Services</h3>
           <p className="mb-10 text-center text-sm text-[#888]">Extend any clean with an add-on for a truly spotless finish.</p>
 
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {ADDONS.map((addon, i) => (
               <div
                 key={addon.title}

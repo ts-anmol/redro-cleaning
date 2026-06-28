@@ -23,19 +23,19 @@ const TOTAL_SUBURBS = REGIONS.reduce((sum, region) => sum + region.suburbs.lengt
 
 export default function AreasServed() {
   return (
-    <section className="bg-white px-20 py-16">
+    <section className="bg-white px-5 py-16 sm:px-8 lg:px-20">
       <div className="mx-auto max-w-[1280px] text-center">
         <div className="font-display mb-3 text-[13px] font-semibold tracking-[0.06em] text-[#AAA] uppercase">
           Proudly Serving
         </div>
-        <h2 className="font-display mb-3 text-[32px] font-black text-[#111]">
+        <h2 className="font-display mb-3 text-[clamp(1.6rem,6vw,32px)] font-black text-[#111] lg:text-[32px]">
           <span className="text-redro-red">{TOTAL_SUBURBS}+</span> Sydney Suburbs Covered
         </h2>
         <p className="mx-auto mb-12 max-w-[480px] text-[15px] text-[#888]">
           From the CBD to the Hills District — we clean across Greater Sydney.
         </p>
 
-        <div className="grid grid-cols-3 gap-5 text-left">
+        <div className="grid grid-cols-1 gap-5 text-left sm:grid-cols-2 lg:grid-cols-3">
           {REGIONS.map((region) => (
             <div key={region.name} className="rounded-[14px] border border-[#ECEAE8] bg-redro-cream p-6">
               <div className="font-display mb-3 text-sm font-bold tracking-[0.02em] text-redro-red">

@@ -32,10 +32,10 @@ const VALUES = [
 
 export default function About() {
   return (
-    <section id="about" className="scroll-mt-20 bg-redro-cream py-24">
-      <div className="mx-auto max-w-[1280px] px-20">
-        <div className="grid grid-cols-2 items-center gap-20">
-          <div className="relative h-[460px] overflow-hidden rounded-[20px] shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+    <section id="about" className="scroll-mt-20 bg-redro-cream py-16 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-20">
+          <div className="relative h-[300px] overflow-hidden rounded-[20px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] sm:h-[400px] lg:h-[460px]">
             <Image
               src="/team.png"
               alt="Redro Cleaning team smiling in a bright home"
@@ -52,7 +52,7 @@ export default function About() {
                 About Redro
               </span>
             </div>
-            <h2 className="font-display mb-5 text-[42px] leading-[1.1] font-extrabold tracking-[-0.02em] text-[#111]">
+            <h2 className="font-display mb-5 text-[clamp(1.9rem,6vw,42px)] leading-[1.15] font-extrabold tracking-[-0.02em] text-[#111] lg:text-[42px] lg:leading-[1.1]">
               Trusted by Sydney Families Since 2018
             </h2>
             <p className="mb-4 text-base leading-[1.8] text-[#555]">

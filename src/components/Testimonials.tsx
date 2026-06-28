@@ -26,14 +26,14 @@ const REVIEWS = [
 
 export default function Testimonials() {
   return (
-    <section id="reviews" className="scroll-mt-20 bg-white py-24">
-      <div className="mx-auto max-w-[1280px] px-20">
+    <section id="reviews" className="scroll-mt-20 bg-white py-16 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
         <SectionHeading
           eyebrow="Reviews"
           title="What Sydney Locals Say"
-          className="mb-15"
+          className="mb-12 lg:mb-15"
         />
-        <div className="-mt-6 mb-15 flex items-center justify-center gap-4">
+        <div className="-mt-4 mb-12 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 lg:-mt-6 lg:mb-15 lg:gap-4">
           <div className="text-xl text-[#FBBC04]">★★★★★</div>
           <div className="font-display text-base font-semibold text-[#111]">
             4.8
@@ -44,7 +44,7 @@ export default function Testimonials() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {REVIEWS.map((review) => (
             <div
               key={review.name}

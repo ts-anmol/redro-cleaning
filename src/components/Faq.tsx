@@ -54,9 +54,9 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="scroll-mt-20 bg-white py-24">
-      <div className="mx-auto max-w-[1280px] px-20">
-        <div className="grid grid-cols-[1fr_1.1fr] gap-20">
+    <section id="faq" className="scroll-mt-20 bg-white py-16 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
             <div className="mb-5 inline-flex items-center gap-3">
               <div className="h-[1.5px] w-7 bg-redro-red" />
@@ -64,7 +64,7 @@ export default function Faq() {
                 FAQ
               </span>
             </div>
-            <h2 className="font-display mb-5 text-[42px] leading-[1.1] font-extrabold tracking-[-0.02em] text-[#111]">
+            <h2 className="font-display mb-5 text-[clamp(1.9rem,6vw,42px)] leading-[1.15] font-extrabold tracking-[-0.02em] text-[#111] lg:text-[42px] lg:leading-[1.1]">
               Common Questions
             </h2>
             <p className="text-base leading-[1.75] text-[#666]">
@@ -107,7 +107,7 @@ export default function Faq() {
                   <button
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? -1 : i)}
-                    className={`flex w-full items-center justify-between gap-4 px-7 py-5.5 text-left ${
+                    className={`flex w-full items-center justify-between gap-4 px-5 py-5 text-left lg:px-7 lg:py-5.5 ${
                       isOpen ? "bg-[#FFF8F7]" : ""
                     }`}
                   >
@@ -123,7 +123,7 @@ export default function Faq() {
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="bg-[#FFFBFB] px-7 py-5">
+                    <div className="bg-[#FFFBFB] px-5 py-5 lg:px-7">
                       <p className="text-[15px] leading-[1.7] text-[#555]">{faq.answer}</p>
                     </div>
                   )}

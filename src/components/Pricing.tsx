@@ -16,23 +16,20 @@ const ITEMS: PriceItem[] = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="scroll-mt-20 bg-white py-24">
-      <div className="mx-auto max-w-[1280px] px-20">
+    <section id="pricing" className="scroll-mt-20 bg-white py-16 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-20">
         <SectionHeading
           eyebrow="Transparent Pricing"
           title="Honest Starting Prices"
           subtitle="Every property is different, so here's a ballpark for each service. Tell us about your place and we'll confirm an exact, no-obligation quote."
-          className="mx-auto mb-15 max-w-[560px]"
+          className="mx-auto mb-10 max-w-[560px] lg:mb-15"
         />
 
-        <div className="flex overflow-hidden rounded-[14px] border border-redro-border">
-          {ITEMS.map((item, i) => (
-            <div key={item.label} className="flex flex-1 items-center">
-              {i > 0 && <div className="h-full w-px bg-redro-border" />}
-              <div className="flex-1 px-5 py-9 text-center">
-                <div className="font-display mb-2 text-[22px] font-black text-redro-red">{item.price}</div>
-                <div className="text-[13px] font-medium text-[#666]">{item.label}</div>
-              </div>
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[14px] border border-redro-border bg-redro-border sm:grid-cols-3 lg:grid-cols-6">
+          {ITEMS.map((item) => (
+            <div key={item.label} className="bg-white px-5 py-7 text-center lg:py-9">
+              <div className="font-display mb-2 text-[20px] font-black text-redro-red lg:text-[22px]">{item.price}</div>
+              <div className="text-[13px] font-medium text-[#666]">{item.label}</div>
             </div>
           ))}
         </div>

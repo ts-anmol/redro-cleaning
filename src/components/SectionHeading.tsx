@@ -20,11 +20,11 @@ export default function SectionHeading({
         </span>
         <div className="h-[1.5px] w-7 bg-redro-red" />
       </div>
-      <h2 className="font-display text-[46px] leading-[1.05] font-extrabold tracking-[-0.025em] text-[#111]">
+      <h2 className="font-display text-[clamp(2rem,7vw,46px)] leading-[1.1] font-extrabold tracking-[-0.025em] text-[#111] lg:text-[46px] lg:leading-[1.05]">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-[17px] leading-[1.7] text-[#666]">{subtitle}</p>
+        <p className="mt-4 text-[15px] leading-[1.7] text-[#666] sm:text-[17px]">{subtitle}</p>
       )}
     </div>
   );
