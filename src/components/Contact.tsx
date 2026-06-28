@@ -9,10 +9,34 @@ const labelClasses =
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Request failed");
+      }
+
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong sending your request. Please call or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -60,7 +84,7 @@ export default function Contact() {
                       </svg>
                     </div>
                     <span className="text-sm text-white/60">
-                      info@redrocleaning.com.au
+                      info@redrocleaning.com
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -271,11 +295,15 @@ export default function Contact() {
                       className={`${inputClasses} h-16 resize-none py-2.5`}
                     />
                   </div>
+                  {error && (
+                    <p className="mb-4 text-sm font-medium text-redro-red">{error}</p>
+                  )}
                   <button
                     type="submit"
-                    className="font-display block w-full rounded-[7px] bg-redro-red py-3.5 text-sm font-bold tracking-[0.06em] text-white uppercase shadow-[0_6px_20px_rgba(212,31,31,0.25)]"
+                    disabled={isSubmitting}
+                    className="font-display block w-full rounded-[7px] bg-redro-red py-3.5 text-sm font-bold tracking-[0.06em] text-white uppercase shadow-[0_6px_20px_rgba(212,31,31,0.25)] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Get My Free Quote
+                    {isSubmitting ? "Sending…" : "Get My Free Quote"}
                   </button>
                 </form>
               )}

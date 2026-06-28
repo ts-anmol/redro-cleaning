@@ -95,10 +95,10 @@ export default function Footer() {
             </div>
             <div className="flex flex-col gap-3.5">
               <a
-                href="mailto:info@redrocleaning.com.au"
+                href="mailto:info@redrocleaning.com"
                 className="text-sm leading-[1.4] text-white/50"
               >
-                info@redrocleaning.com.au
+                info@redrocleaning.com
               </a>
               <a
                 href="tel:+61404504303"
