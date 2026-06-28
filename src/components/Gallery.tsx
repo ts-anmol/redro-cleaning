@@ -16,15 +16,15 @@ const ITEMS = [
   },
   {
     state: "Before" as const,
-    room: "Bathroom — Deep Clean",
+    room: "Bathroom — Move-In Clean",
     src: "/beforebathroom.png",
-    alt: "Bathroom before a deep clean",
+    alt: "Bathroom before a move-in clean",
   },
   {
     state: "After" as const,
-    room: "Bathroom — Deep Clean",
+    room: "Bathroom — Move-In Clean",
     src: "/afterbathroom.png",
-    alt: "Sparkling bathroom after a deep clean",
+    alt: "Sparkling bathroom after a move-in clean",
   },
 ];
 

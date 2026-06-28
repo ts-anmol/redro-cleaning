@@ -4,14 +4,29 @@ import { useState } from "react";
 
 const FAQS = [
   {
-    question: "Do you offer a bond back guarantee?",
+    question: "What's covered in an end of lease clean?",
     answer:
-      "Yes. If your property manager or landlord is not satisfied with the result, we will return within 72 hours and re-clean affected areas completely free of charge, no questions asked.",
+      "We work through the full real estate inspection checklist — every room, the kitchen, bathrooms, inside cupboards, skirting boards and fixtures — so the property is ready for your final walkthrough.",
   },
   {
-    question: "What areas of Sydney do you cover?",
+    question: "Do you offer a bond back guarantee?",
     answer:
-      "We service all of Sydney including the CBD, Inner West, Eastern Suburbs, North Shore, Western Sydney, South Sydney, Parramatta, Northern Beaches and the Hills District.",
+      "Yes. If your property manager or landlord isn't satisfied with the result, we'll return within 72 hours and re-clean the affected areas completely free of charge, no questions asked.",
+  },
+  {
+    question: "Are your cleaners insured and background-checked?",
+    answer:
+      "Every cleaner on our team is fully insured and police-checked before they ever step into your home, so you can have complete peace of mind.",
+  },
+  {
+    question: "Which parts of Sydney do you service?",
+    answer:
+      "We cover 51+ suburbs across Greater Sydney — the CBD, Inner West, Eastern Suburbs, North Shore, Western Sydney, South Sydney, Parramatta, Northern Beaches and the Hills District.",
+  },
+  {
+    question: "Do you bring your own supplies and equipment?",
+    answer:
+      "Yes — our cleaners turn up fully equipped with everything needed for the job, so there's nothing for you to organise beforehand.",
   },
   {
     question: "What cleaning products do you use?",
@@ -19,9 +34,14 @@ const FAQS = [
       "We use eco-friendly, hospital-grade products that are safe for children, pets and the environment, without compromising on cleaning power.",
   },
   {
+    question: "How long does a typical clean take?",
+    answer:
+      "It depends on the size and condition of the property — add-ons like carpet steam cleaning or a balcony clean usually take under 2 hours, while a full end of lease, move-in or move-out clean typically runs 4–8 hours. We'll confirm a timeframe when you book.",
+  },
+  {
     question: "Do I need to be home during the clean?",
     answer:
-      "Not at all. Many of our customers provide access instructions and head out — our insured, police-checked cleaners can let themselves in and lock up afterwards.",
+      "Not at all. Many customers provide access instructions and head out — our insured, police-checked cleaners can let themselves in and lock up afterwards.",
   },
   {
     question: "How do I reschedule or cancel?",
@@ -54,7 +74,7 @@ export default function Faq() {
             <div className="mt-9 flex flex-col gap-3">
               <a href="mailto:info@redrocleaning.com.au" className="flex items-center gap-3.5 rounded-[10px] bg-redro-cream px-5 py-4.5">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-redro-tint">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <rect x="2" y="5" width="16" height="11" rx="2" stroke="#D41F1F" strokeWidth="1.5" />
                     <polyline points="2,5 10,12 18,5" stroke="#D41F1F" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
@@ -66,7 +86,7 @@ export default function Faq() {
               </a>
               <a href="tel:+61404504303" className="flex items-center gap-3.5 rounded-[10px] bg-redro-red px-5 py-4.5">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/20">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <rect x="5" y="1" width="10" height="18" rx="2" stroke="white" strokeWidth="1.5" />
                     <circle cx="10" cy="15.5" r="1" fill="white" />
                   </svg>

@@ -1,81 +1,18 @@
 import SectionHeading from "./SectionHeading";
 
-type Tier = {
+type PriceItem = {
   label: string;
   price: string;
-  caption: string;
-  features: { text: string; included: boolean }[];
-  cta: string;
-  popular?: boolean;
 };
 
-const TIERS: Tier[] = [
-  {
-    label: "Essential",
-    price: "$120",
-    caption: "2–3 bedroom home",
-    features: [
-      { text: "All rooms + bathrooms", included: true },
-      { text: "Vacuum & mop floors", included: true },
-      { text: "Kitchen & benchtops", included: true },
-      { text: "Inside oven / fridge", included: false },
-      { text: "Bond guarantee", included: false },
-    ],
-    cta: "Get a Quote",
-  },
-  {
-    label: "⭐ Most Popular",
-    price: "$220",
-    caption: "3–4 bedroom home",
-    features: [
-      { text: "Everything in Essential", included: true },
-      { text: "Inside oven & fridge", included: true },
-      { text: "Skirting boards & doors", included: true },
-      { text: "Blind dusting", included: true },
-      { text: "Bond guarantee", included: false },
-    ],
-    cta: "Book Now",
-    popular: true,
-  },
-  {
-    label: "Bond Clean",
-    price: "$320",
-    caption: "Any size property",
-    features: [
-      { text: "Complete deep clean", included: true },
-      { text: "Oven, fridge, dishwasher", included: true },
-      { text: "Walls & light fittings", included: true },
-      { text: "100% Bond guarantee", included: true },
-      { text: "Free re-clean if needed", included: true },
-    ],
-    cta: "Get a Quote",
-  },
+const ITEMS: PriceItem[] = [
+  { label: "End of Lease", price: "From $250" },
+  { label: "Move-In Cleaning", price: "Get a Quote" },
+  { label: "Move-Out Cleaning", price: "Get a Quote" },
+  { label: "Carpet Steam Cleaning", price: "From $89" },
+  { label: "Pressure Driveway Wash", price: "From $120" },
+  { label: "Balcony Deep Clean", price: "From $69" },
 ];
-
-function FeatureIcon({ included, popular }: { included: boolean; popular?: boolean }) {
-  if (included) {
-    return (
-      <svg width="16" height="16" viewBox="0 0 16 16">
-        <circle cx="8" cy="8" r="7" fill={popular ? "rgba(255,255,255,.2)" : "#FFF0EF"} />
-        <polyline
-          points="4.5,8 7,10.5 11.5,5.5"
-          stroke={popular ? "#fff" : "#D41F1F"}
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-        />
-      </svg>
-    );
-  }
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16">
-      <circle cx="8" cy="8" r="7" fill={popular ? "rgba(255,255,255,.08)" : "#F0F0EE"} />
-      <line x1="5.5" y1="5.5" x2="10.5" y2="10.5" stroke={popular ? "rgba(255,255,255,.3)" : "#CCC"} strokeWidth="1.8" strokeLinecap="round" />
-      <line x1="10.5" y1="5.5" x2="5.5" y2="10.5" stroke={popular ? "rgba(255,255,255,.3)" : "#CCC"} strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 export default function Pricing() {
   return (
@@ -83,73 +20,34 @@ export default function Pricing() {
       <div className="mx-auto max-w-[1280px] px-20">
         <SectionHeading
           eyebrow="Transparent Pricing"
-          title="Clear, Honest Packages"
-          subtitle="No hidden fees. No surprises. Just great cleaning at a fair price."
-          className="mx-auto mb-15 max-w-[480px]"
+          title="Honest Starting Prices"
+          subtitle="Every property is different, so here's a ballpark for each service. Tell us about your place and we'll confirm an exact, no-obligation quote."
+          className="mx-auto mb-15 max-w-[560px]"
         />
 
-        <div className="grid grid-cols-3 items-start gap-6">
-          {TIERS.map((tier) => (
-            <div
-              key={tier.label}
-              className={`rounded-[14px] p-10 ${
-                tier.popular
-                  ? "-translate-y-4 bg-redro-red shadow-[0_16px_48px_rgba(212,31,31,0.28)]"
-                  : "bg-redro-cream"
-              }`}
-            >
-              <div
-                className={`font-display mb-5 text-xs font-bold tracking-[0.08em] uppercase ${
-                  tier.popular ? "text-white/70" : "text-[#AAA]"
-                }`}
-              >
-                {tier.label}
+        <div className="flex overflow-hidden rounded-[14px] border border-redro-border">
+          {ITEMS.map((item, i) => (
+            <div key={item.label} className="flex flex-1 items-center">
+              {i > 0 && <div className="h-full w-px bg-redro-border" />}
+              <div className="flex-1 px-5 py-9 text-center">
+                <div className="font-display mb-2 text-[22px] font-black text-redro-red">{item.price}</div>
+                <div className="text-[13px] font-medium text-[#666]">{item.label}</div>
               </div>
-              <div className={`font-display mb-1.5 text-[54px] font-black ${tier.popular ? "text-white" : "text-[#111]"}`}>
-                {tier.price}
-                <span className={`text-lg font-medium ${tier.popular ? "text-white/60" : "text-[#AAA]"}`}>+</span>
-              </div>
-              <div className={`mb-7 text-sm ${tier.popular ? "text-white/60" : "text-[#AAA]"}`}>{tier.caption}</div>
-              <div className={`mb-7 h-px ${tier.popular ? "bg-white/20" : "bg-[#E0DED8]"}`} />
-              <ul className="mb-9 flex flex-col gap-3.5">
-                {tier.features.map((feature) => (
-                  <li
-                    key={feature.text}
-                    className={`flex items-center gap-2.5 text-[15px] ${
-                      tier.popular
-                        ? feature.included
-                          ? "text-white/90"
-                          : "text-white/50"
-                        : feature.included
-                          ? "text-[#444]"
-                          : "text-[#CCC]"
-                    }`}
-                  >
-                    <FeatureIcon included={feature.included} popular={tier.popular} />
-                    {feature.text}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#contact"
-                className={`font-display block rounded-[7px] py-4 text-center text-[13px] font-bold tracking-[0.05em] uppercase ${
-                  tier.popular
-                    ? "bg-white text-redro-red"
-                    : "border-2 border-redro-red text-redro-red"
-                }`}
-              >
-                {tier.cta}
-              </a>
             </div>
           ))}
         </div>
 
-        <p className="mt-7 text-center text-sm text-[#AAA]">
-          All prices are indicative. Final quote depends on property size and condition.{" "}
-          <a href="#contact" className="text-redro-red">
-            Get your exact quote →
+        <div className="mt-9 text-center">
+          <a
+            href="#contact"
+            className="font-display inline-block rounded-[7px] bg-redro-red px-10 py-4.5 text-sm font-bold tracking-[0.05em] text-white uppercase shadow-[0_6px_20px_rgba(212,31,31,0.25)]"
+          >
+            Get Your Exact Quote
           </a>
-        </p>
+          <p className="mt-5 text-sm text-[#AAA]">
+            All prices are indicative. Final quote depends on property size and condition.
+          </p>
+        </div>
       </div>
     </section>
   );

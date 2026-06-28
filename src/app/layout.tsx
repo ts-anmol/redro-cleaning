@@ -15,9 +15,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Redro Cleaning | Professional House & Apartment Cleaning in Sydney",
+  title: "Redro Cleaning | End of Lease, Move-In & Move-Out Cleaning in Sydney",
   description:
-    "Professional house & apartment cleaning across Sydney. Regular cleans, deep cleans, end of lease — spotless results backed by our 100% guarantee.",
+    "Professional end of lease, move-in and move-out cleaning across Sydney, plus carpet steam, driveway and balcony add-ons — spotless results backed by our 100% bond back guarantee.",
+  icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({

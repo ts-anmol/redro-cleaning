@@ -25,12 +25,12 @@ export default function Home() {
       <HowItWorks />
       <Pricing />
       <About />
+      <AreasServed />
       <Testimonials />
       <CtaBanner />
       <Gallery />
       <Faq />
       <Contact />
-      <AreasServed />
       <Footer />
     </>
   );

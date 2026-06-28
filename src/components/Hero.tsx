@@ -4,7 +4,7 @@ const STATS = [
   { value: "2,400+", label: "Homes Cleaned", accent: false },
   { value: "100%", label: "Bond Back Rate", accent: true },
   { value: "6+ yrs", label: "In Sydney", accent: false },
-  { value: "<4 hr", label: "Avg Response", accent: false },
+  { value: "<1 hr", label: "Avg Response", accent: false },
 ];
 
 export default function Hero() {
@@ -16,9 +16,13 @@ export default function Hero() {
 
       <div className="relative z-10 flex-[0_0_52%] py-20">
         <div className="mb-7 inline-flex items-center gap-2.5 rounded-lg bg-white px-4 py-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.08)]">
-          <span className="font-display text-xs font-bold tracking-[0.02em] text-[#4285F4]">Google</span>
+          <span className="font-display text-xs font-bold tracking-[0.02em] text-[#4285F4]">
+            Google
+          </span>
           <span className="text-[13px] text-[#FBBC04]">★★★★★</span>
-          <span className="text-[13px] text-[#666]">Rated 5.0 · 500+ reviews</span>
+          <span className="text-[13px] text-[#666]">
+            Rated 4.8 · 500+ reviews
+          </span>
         </div>
 
         <h1 className="font-display mb-5 text-[68px] leading-[1.0] font-black tracking-[-0.03em] text-[#111]">
@@ -28,8 +32,9 @@ export default function Hero() {
         </h1>
 
         <p className="mb-9 max-w-[480px] text-lg leading-[1.75] text-[#555]">
-          Professional house &amp; apartment cleaning across Sydney. Regular cleans,
-          deep cleans, end of lease — spotless results backed by our 100% guarantee.
+          Professional end of lease, move-in &amp; move-out cleaning across
+          Sydney — plus carpet, driveway &amp; balcony add-ons, backed by our
+          100% bond back guarantee.
         </p>
 
         <div className="mb-13 flex items-center gap-3.5">
@@ -44,9 +49,22 @@ export default function Hero() {
               fill="none"
               className="shrink-0 transition-transform duration-200 group-hover:scale-110"
             >
-              <rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+              <rect
+                x="2"
+                y="3"
+                width="12"
+                height="11"
+                rx="1.5"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              />
               <path d="M2 6.5h12" stroke="currentColor" strokeWidth="1.4" />
-              <path d="M5 1.5v3M11 1.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              <path
+                d="M5 1.5v3M11 1.5v3"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
               <path
                 d="M5.5 9.7l1.5 1.5 3-3.2"
                 stroke="currentColor"
