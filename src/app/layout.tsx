@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Montserrat, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
+
+// Google Ads conversion tracking (gtag.js) — loaded on every page.
+const GOOGLE_ADS_ID = "AW-18298008775";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -28,7 +32,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${montserrat.variable} ${inter.variable}`}>
-      <body className="bg-white antialiased">{children}</body>
+      <body className="bg-white antialiased">
+        {children}
+
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ADS_ID}');
+          `}
+        </Script>
+      </body>
     </html>
   );
 }

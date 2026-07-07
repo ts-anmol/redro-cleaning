@@ -65,6 +65,15 @@ export default function Contact({
       }
 
       setSubmitted(true);
+
+      // Google Ads: report a "Request quote" conversion on successful submit.
+      // (This SPA has no separate thank-you URL, so the success state is the
+      // conversion moment.)
+      type Gtag = (command: string, ...args: unknown[]) => void;
+      const gtag = (window as unknown as { gtag?: Gtag }).gtag;
+      gtag?.("event", "conversion", {
+        send_to: "AW-18298008775/2e5ECJalnswcEMfplZVE",
+      });
     } catch {
       setError("Something went wrong sending your request. Please call or email us directly.");
     } finally {
