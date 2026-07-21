@@ -284,6 +284,20 @@ export default function Contact({
                       ))}
                     </select>
                   </div>
+                  <div className="mb-3.5">
+                    <label htmlFor="address" className={labelClasses}>
+                      Property Address
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      id="address"
+                      name="address"
+                      autoComplete="street-address"
+                      placeholder="e.g. 12 Phillip St, Parramatta NSW 2150"
+                      className={inputClasses}
+                    />
+                  </div>
                   <div className="mb-3.5 grid grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="preferredDate" className={labelClasses}>
