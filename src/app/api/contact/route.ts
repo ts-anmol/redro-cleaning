@@ -34,6 +34,7 @@ type ContactPayload = {
   serviceType: string;
   preferredDate: string;
   bedrooms: string;
+  address: string;
   message?: string;
 };
 
@@ -54,7 +55,9 @@ function isValidPayload(data: unknown): data is ContactPayload {
     typeof d.preferredDate === "string" &&
     d.preferredDate.trim() !== "" &&
     typeof d.bedrooms === "string" &&
-    d.bedrooms.trim() !== ""
+    d.bedrooms.trim() !== "" &&
+    typeof d.address === "string" &&
+    d.address.trim() !== ""
   );
 }
 
@@ -117,10 +120,11 @@ function buildAdminEmailHtml(opts: {
   serviceLabel: string;
   preferredDate: string;
   bedroomLabel: string;
+  address: string;
   message: string;
   contact: { email: string; phone: string };
 }): string {
-  const { fullName, firstName, email, phone, serviceLabel, preferredDate, bedroomLabel, message, contact } = opts;
+  const { fullName, firstName, email, phone, serviceLabel, preferredDate, bedroomLabel, address, message, contact } = opts;
   return emailLayout(
     `
     ${eyebrow("New Quote Request")}
@@ -130,6 +134,7 @@ function buildAdminEmailHtml(opts: {
       ${detailRow("Email", email)}
       ${detailRow("Phone", phone)}
       ${detailRow("Service", serviceLabel)}
+      ${detailRow("Address", address)}
       ${detailRow("Preferred Date", preferredDate)}
       ${detailRow("Bedrooms", bedroomLabel)}
     </table>
@@ -152,9 +157,10 @@ function buildCustomerEmailHtml(opts: {
   serviceLabel: string;
   preferredDate: string;
   bedroomLabel: string;
+  address: string;
   contact: { email: string; phone: string };
 }): string {
-  const { firstName, serviceLabel, preferredDate, bedroomLabel, contact } = opts;
+  const { firstName, serviceLabel, preferredDate, bedroomLabel, address, contact } = opts;
   const telHref = `tel:${contact.phone.replace(/[^+\d]/g, "")}`;
   return emailLayout(
     `
@@ -169,6 +175,7 @@ function buildCustomerEmailHtml(opts: {
           <p style="margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:0.06em;color:#AAAAAA;text-transform:uppercase;">Your Request</p>
           <table style="width:100%;border-collapse:collapse;">
             ${detailRow("Service", serviceLabel)}
+            ${detailRow("Address", address)}
             ${detailRow("Preferred Date", preferredDate)}
             ${detailRow("Bedrooms", bedroomLabel)}
           </table>
@@ -197,6 +204,7 @@ export async function POST(request: NextRequest) {
   const email = body.email;
   const phone = escapeHtml(body.phone);
   const preferredDate = escapeHtml(body.preferredDate);
+  const address = escapeHtml(body.address);
   const message = body.message?.trim() ? escapeHtml(body.message) : "";
   const serviceLabel = SERVICE_LABELS[body.serviceType] ?? escapeHtml(body.serviceType);
   const bedroomLabel = BEDROOM_LABELS[body.bedrooms] ?? escapeHtml(body.bedrooms);
@@ -232,6 +240,7 @@ export async function POST(request: NextRequest) {
       serviceLabel,
       preferredDate,
       bedroomLabel,
+      address,
       message,
       contact,
     }),
@@ -246,7 +255,7 @@ export async function POST(request: NextRequest) {
     from: fromEmail,
     to: email,
     subject: "We've received your quote request — Redro Cleaning",
-    html: buildCustomerEmailHtml({ firstName, serviceLabel, preferredDate, bedroomLabel, contact }),
+    html: buildCustomerEmailHtml({ firstName, serviceLabel, preferredDate, bedroomLabel, address, contact }),
   });
 
   if (customerSend.error) {
@@ -266,6 +275,7 @@ export async function POST(request: NextRequest) {
         serviceType: body.serviceType,
         preferredDate: body.preferredDate.trim(),
         bedrooms: body.bedrooms,
+        address: body.address.trim(),
         message: body.message?.trim() ? body.message.trim() : null,
         status: "NEW",
       },

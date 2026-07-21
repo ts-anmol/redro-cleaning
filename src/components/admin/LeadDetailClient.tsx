@@ -40,7 +40,12 @@ export default function LeadDetailClient({ lead }: { lead: LeadWithBooking }) {
   const [statusSaving, setStatusSaving] = useState(false);
 
   const [showConvert, setShowConvert] = useState(false);
-  const [convert, setConvert] = useState({ address: "", scheduledAt: "", price: "" });
+  // Prefill the booking address from the lead so the admin doesn't retype it.
+  const [convert, setConvert] = useState({
+    address: lead.address ?? "",
+    scheduledAt: "",
+    price: "",
+  });
   const [converting, setConverting] = useState(false);
   const [error, setError] = useState("");
 
@@ -128,6 +133,7 @@ export default function LeadDetailClient({ lead }: { lead: LeadWithBooking }) {
             <Field label="Email" value={lead.email} />
             <Field label="Phone" value={lead.phone} />
             <Field label="Service" value={serviceLabel(lead.serviceType)} />
+            <Field label="Address" value={lead.address?.trim() ? lead.address : "—"} />
             <Field label="Preferred Date" value={lead.preferredDate} />
             <Field label="Bedrooms" value={bedroomLabel(lead.bedrooms)} />
             <Field

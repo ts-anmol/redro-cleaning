@@ -17,6 +17,7 @@ model Lead {
   serviceType   String
   preferredDate String
   bedrooms      String
+  address       String?
   message       String?
   status        LeadStatus @default(NEW)
   notes         String?
