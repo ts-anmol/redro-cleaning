@@ -224,7 +224,7 @@ export default function Services({
               }`}
             >
               {service.dark && (
-                <div className="absolute -right-10 -bottom-10 h-50 w-50 rounded-full bg-redro-red opacity-[0.08]" />
+                <div className="pointer-events-none absolute -right-10 -bottom-10 h-50 w-50 rounded-full bg-redro-red opacity-[0.08]" />
               )}
               <div className="mb-6 flex items-start justify-between">
                 <div
