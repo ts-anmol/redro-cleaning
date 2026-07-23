@@ -131,14 +131,17 @@ export default function Footer({
             © 2026 Redro Cleaning Pty Ltd. ABN: 23 461 553 081. All rights
             reserved.
           </span>
-          {/* <div className="flex gap-7">
-            <a href="#" className="text-xs text-white/25">
-              Privacy Policy
+          <span className="text-xs text-white/25">
+            Developed by{" "}
+            <a
+              href="https://www.facebook.com/sujansince2003"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-white/40 transition-colors hover:text-redro-red"
+            >
+              Sujan Khatri
             </a>
-            <a href="#" className="text-xs text-white/25">
-              Terms of Service
-            </a>
-          </div> */}
+          </span>
         </div>
       </div>
     </footer>
