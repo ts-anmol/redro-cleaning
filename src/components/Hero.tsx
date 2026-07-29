@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 const STATS = [
-  { value: "2,400+", label: "Homes Cleaned", accent: false },
+  { value: "900+", label: "Homes Cleaned", accent: false },
   { value: "100%", label: "Bond Back Rate", accent: true },
   { value: "3+ yrs", label: "In Sydney", accent: false },
   { value: "<1 hr", label: "Avg Response", accent: false },
@@ -21,7 +21,7 @@ export default function Hero() {
           </span>
           <span className="text-[13px] text-[#FBBC04]">★★★★★</span>
           <span className="text-[13px] text-[#666]">
-            Rated 4.8 · 500+ reviews
+            Rated 4.8 · 400+ reviews
           </span>
         </div>
 

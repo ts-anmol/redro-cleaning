@@ -40,7 +40,7 @@ export default function Testimonials() {
           </div>
           <div className="text-sm text-[#888]">based on</div>
           <div className="font-display text-sm font-semibold text-[#111]">
-            500+ Google Reviews
+            400+ Google Reviews
           </div>
         </div>
 
@@ -78,7 +78,7 @@ export default function Testimonials() {
             href="#"
             className="font-display text-sm font-semibold tracking-[0.04em] text-redro-red uppercase"
           >
-            Read All 500+ Google Reviews →
+            Read All 400+ Google Reviews →
           </a>
         </div>
       </div>

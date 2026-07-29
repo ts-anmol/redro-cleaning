@@ -58,7 +58,7 @@ export default function About() {
             <p className="mb-4 text-base leading-[1.8] text-[#555]">
               Redro Cleaning was built on a simple belief: everyone deserves to come
               home to a clean, fresh space. Based in Sydney, our team of trained,
-              police-checked cleaners has helped over 2,400 families across the city.
+              police-checked cleaners has helped over 900+ families across the city.
             </p>
             <p className="mb-9 text-base leading-[1.8] text-[#555]">
               We use only eco-friendly, hospital-grade products that are safe for

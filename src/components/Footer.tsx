@@ -32,8 +32,8 @@ export default function Footer({
               Making Spaces Spotless
             </div>
             <p className="mb-7 max-w-70 text-sm leading-[1.8] text-white/45">
-              Professional cleaning services across Sydney. Trusted by over
-              2,400 families since 2025.
+              Professional cleaning services across Sydney. Trusted by over 900+
+              families since 2023.
             </p>
             {/* <div className="mb-7 flex gap-2.5">
               <div className="flex h-9.5 w-9.5 items-center justify-center rounded-[7px] bg-white/8">
@@ -57,7 +57,7 @@ export default function Footer({
                 ★★★★★
               </div>
               <span className="text-xs font-medium text-white/50">
-                4.8 · 500+ Google Reviews
+                4.8 · 400+ Google Reviews
               </span>
             </div>
           </div>

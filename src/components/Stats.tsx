@@ -1,8 +1,8 @@
 const STATS = [
   { value: "3+ yrs", label: "Years Serving", sub: "Sydney" },
-  { value: "2,400+", label: "Homes Cleaned", sub: "Since 2018" },
+  { value: "900+", label: "Homes Cleaned", sub: "Since 2023" },
   { value: "100%", label: "Bond Back Rate", sub: "Guaranteed" },
-  { value: "5.0★", label: "Google Rating", sub: "500+ Reviews" },
+  { value: "4.8★", label: "Google Rating", sub: "400+ Reviews" },
   { value: "98%", label: "Satisfaction", sub: "Rate" },
 ];
 
