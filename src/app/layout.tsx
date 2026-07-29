@@ -11,6 +11,10 @@ const GOOGLE_ADS_ID = "AW-18298008775";
 // Google Tag Manager container — loaded on every page.
 const GTM_ID = "GTM-MMXWT6KK";
 
+// Google Ads call conversion — swaps the displayed number for a tracking number.
+const PHONE_CONVERSION_LABEL = "AW-18298008775/VCxrCJvCn8wcEMfplZVE";
+const PHONE_CONVERSION_NUMBER = "+61 404504303";
+
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
@@ -130,6 +134,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${GOOGLE_ADS_ID}');
+            gtag('config', '${PHONE_CONVERSION_LABEL}', {
+              'phone_conversion_number': '${PHONE_CONVERSION_NUMBER}'
+            });
           `}
         </Script>
       </body>
