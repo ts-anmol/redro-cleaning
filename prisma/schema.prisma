@@ -68,11 +68,12 @@ model ServiceConfig {
 
 model SiteSettings {
   id           String @id @default("singleton")
-  adminEmail   String @default("redrocleaning@gmail.com")
+  /// Comma-separated list — quote requests notify every address.
+  adminEmail   String @default("contact@redrocleaning.com, redrocleaning@gmail.com")
   businessName String @default("Redro Cleaning")
   phone        String @default("+61 404 504 303")
   emailFrom    String @default("Redro Cleaning <quotes@redrocleaning.com>")
-  contactEmail String @default("redrocleaning@gmail.com")
+  contactEmail String @default("contact@redrocleaning.com")
 }
 
 enum LeadStatus {

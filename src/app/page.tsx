@@ -17,7 +17,7 @@ import { prisma } from "@/lib/prisma";
 import type { ServiceConfig } from "@/types/admin";
 
 const DEFAULT_PHONE = "+61 404 504 303";
-const DEFAULT_CONTACT_EMAIL = "redrocleaning@gmail.com";
+const DEFAULT_CONTACT_EMAIL = "contact@redrocleaning.com";
 
 async function getServiceConfigs(): Promise<ServiceConfig[]> {
   // Drives which services/prices show on the public site (admin-editable).

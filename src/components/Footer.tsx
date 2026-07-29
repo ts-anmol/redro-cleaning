@@ -13,7 +13,7 @@ const COMPANY_LINKS = [
 
 export default function Footer({
   phone = "+61 404 504 303",
-  contactEmail = "redrocleaning@gmail.com",
+  contactEmail = "contact@redrocleaning.com",
 }: {
   phone?: string;
   contactEmail?: string;

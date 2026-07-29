@@ -7,6 +7,17 @@ export const dynamic = "force-dynamic";
 
 const SINGLETON_ID = "singleton";
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** `adminEmail` accepts a comma-separated list; every address must be valid. */
+function isValidRecipientList(value: string): boolean {
+  const addresses = value
+    .split(",")
+    .map((address) => address.trim())
+    .filter(Boolean);
+  return addresses.length > 0 && addresses.every((a) => EMAIL_PATTERN.test(a));
+}
+
 async function getOrCreateSettings() {
   return prisma.siteSettings.upsert({
     where: { id: SINGLETON_ID },
@@ -41,7 +52,15 @@ export async function PATCH(request: NextRequest) {
   }
 
   const data: PatchBody = {};
-  if (typeof body.adminEmail === "string") data.adminEmail = body.adminEmail;
+  if (typeof body.adminEmail === "string") {
+    if (!isValidRecipientList(body.adminEmail)) {
+      return NextResponse.json(
+        { error: "Enter one or more valid email addresses, separated by commas." },
+        { status: 400 },
+      );
+    }
+    data.adminEmail = body.adminEmail;
+  }
   if (typeof body.businessName === "string")
     data.businessName = body.businessName;
   if (typeof body.phone === "string") data.phone = body.phone;

@@ -12,7 +12,7 @@ export const BUSINESS = {
   description:
     "Professional end of lease, move-in and move-out cleaning across Sydney, plus carpet steam, driveway and balcony add-ons — spotless results backed by our 100% bond back guarantee.",
   phone: "+61 404 504 303",
-  email: "redrocleaning@gmail.com",
+  email: "contact@redrocleaning.com",
   priceRange: "$$",
   // Service-area (mobile) business: ~60km around Parramatta, i.e. all of Sydney.
   locality: "Sydney",

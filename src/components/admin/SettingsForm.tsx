@@ -53,8 +53,7 @@ export default function SettingsForm({ settings }: { settings: SiteSettings }) {
     {
       id: "adminEmail",
       label: "Admin Notification Email",
-      type: "email",
-      hint: "Where new quote requests are sent.",
+      hint: "Where new quote requests are sent. Separate multiple addresses with commas.",
     },
     {
       id: "contactEmail",

@@ -20,7 +20,7 @@ const DEFAULT_SERVICE_OPTIONS = [
 export default function Contact({
   services = [],
   phone = "+61 404 504 303",
-  contactEmail = "redrocleaning@gmail.com",
+  contactEmail = "contact@redrocleaning.com",
 }: {
   services?: ServiceConfig[];
   phone?: string;

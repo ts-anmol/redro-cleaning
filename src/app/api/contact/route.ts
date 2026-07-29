@@ -4,8 +4,23 @@ import { prisma } from "@/lib/prisma";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const ADMIN_EMAIL = "redrocleaning@gmail.com";
+// Quote requests notify every address here. The admin settings field accepts a
+// comma-separated list, so recipients can be changed without a deploy.
+const ADMIN_EMAILS = ["contact@redrocleaning.com", "redrocleaning@gmail.com"];
 const FROM_EMAIL = "Redro Cleaning <quotes@redrocleaning.com>";
+const CONTACT_EMAIL = "contact@redrocleaning.com";
+
+/** Split a comma-separated address list into unique, non-empty addresses. */
+function parseRecipients(value: string | undefined): string[] {
+  return [
+    ...new Set(
+      (value ?? "")
+        .split(",")
+        .map((address) => address.trim())
+        .filter(Boolean),
+    ),
+  ];
+}
 
 const SERVICE_LABELS: Record<string, string> = {
   "end-of-lease": "End of Lease Cleaning",
@@ -220,16 +235,19 @@ export async function POST(request: NextRequest) {
   const settings = await prisma.siteSettings
     .findUnique({ where: { id: "singleton" } })
     .catch(() => null);
-  const notifyEmail = settings?.adminEmail?.trim() || ADMIN_EMAIL;
+  const configuredRecipients = parseRecipients(settings?.adminEmail);
+  const notifyEmails = configuredRecipients.length
+    ? configuredRecipients
+    : ADMIN_EMAILS;
   const fromEmail = settings?.emailFrom?.trim() || FROM_EMAIL;
   const contact = {
-    email: settings?.contactEmail?.trim() || "redrocleaning@gmail.com",
+    email: settings?.contactEmail?.trim() || CONTACT_EMAIL,
     phone: settings?.phone?.trim() || "+61 404 504 303",
   };
 
   const adminSend = await resend.emails.send({
     from: fromEmail,
-    to: notifyEmail,
+    to: notifyEmails,
     replyTo: email,
     subject: `New Quote Request — ${serviceLabel} (${fullName})`,
     html: buildAdminEmailHtml({
