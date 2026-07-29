@@ -3,7 +3,7 @@ import Image from "next/image";
 const STATS = [
   { value: "2,400+", label: "Homes Cleaned", accent: false },
   { value: "100%", label: "Bond Back Rate", accent: true },
-  { value: "6+ yrs", label: "In Sydney", accent: false },
+  { value: "3+ yrs", label: "In Sydney", accent: false },
   { value: "<1 hr", label: "Avg Response", accent: false },
 ];
 
