@@ -1,4 +1,5 @@
-import Image from "next/image";
+import BookingForm from "@/components/BookingForm";
+import type { ServiceConfig } from "@/types/admin";
 
 const STATS = [
   { value: "900+", label: "Homes Cleaned", accent: false },
@@ -7,7 +8,7 @@ const STATS = [
   { value: "<1 hr", label: "Avg Response", accent: false },
 ];
 
-export default function Hero() {
+export default function Hero({ services = [] }: { services?: ServiceConfig[] }) {
   return (
     <section className="relative flex min-h-[620px] flex-col items-center overflow-hidden bg-[#FDFCFA] px-5 sm:px-8 lg:flex-row lg:px-20">
       <div className="pointer-events-none absolute -top-30 -right-30 h-[600px] w-[600px] rounded-full bg-redro-red opacity-[0.06]" />
@@ -122,15 +123,16 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 flex w-full items-center self-stretch pb-12 lg:flex-[0_0_48%] lg:py-10 lg:pb-10 lg:pl-16">
-        <div className="relative h-[280px] w-full overflow-hidden rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.1)] sm:h-[380px] lg:h-[480px]">
-          <Image
-            src="/heroimage.png"
-            alt="Professional cleaner in a bright freshly cleaned living room"
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 48vw"
-            priority
-          />
+        <div className="w-full rounded-[20px] bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.1)] sm:p-8">
+          <div className="mb-5">
+            <div className="font-display mb-1.5 text-[11px] font-bold tracking-[0.12em] text-redro-red uppercase">
+              Book a Clean
+            </div>
+            <h2 className="font-display text-2xl font-extrabold tracking-[-0.02em] text-[#111]">
+              Get Your Free Quote
+            </h2>
+          </div>
+          <BookingForm services={services} idPrefix="hero" />
         </div>
       </div>
     </section>

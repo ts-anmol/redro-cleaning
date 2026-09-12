@@ -55,7 +55,7 @@ export default async function Home() {
   return (
     <>
       <Navbar phone={phone} />
-      <Hero />
+      <Hero services={services} />
       <TrustBar />
       <Services services={services} />
       <Stats />
